@@ -1,0 +1,17 @@
+<launch>
+
+    <arg name="address" default="10.42.43.1"/>
+
+    <include file="$(find bluefox2)/launch/single_node.launch">
+        <arg name="device" value="26804209"/>
+        <arg name="camera_name" value="camera"/>
+    </include>
+
+    <include file="$(find odroid_manet)/launch/nimbro.launch">
+        <arg name="address" value="$(arg address)"/>
+        <arg name="port" value="9999"/>
+        <arg name="rate" value="1.0"/>
+        <arg name="compress" value="false"/>
+    </include>
+
+</launch>

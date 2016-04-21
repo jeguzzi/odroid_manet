@@ -10,7 +10,7 @@
               <param name="destination_addr" value="$(arg address)" />
               <param name="destination_port" value="$(arg port)" />
               <rosparam param="topics" subst_value="true">
-- name: "/mv_26802465/image_raw/compressed"
+- name: "/camera/image_raw/compressed"
   compress: "$(arg compress)"
   rate: "$(arg rate)"
 </rosparam>
