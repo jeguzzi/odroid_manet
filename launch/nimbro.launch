@@ -10,9 +10,10 @@
               <param name="destination_addr" value="$(arg address)" />
               <param name="destination_port" value="$(arg port)" />
               <rosparam param="topics" subst_value="true">
-- name: "/camera/image_raw/compressed"
-  compress: "$(arg compress)"
-  rate: "$(arg rate)"
+- name: "/$(env HOSTNAME)/camera/image_raw/compressed"
+  compress: false
+  rate: 1.0
 </rosparam>
 	</node>
 </launch>
+

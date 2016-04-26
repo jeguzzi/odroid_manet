@@ -1,13 +1,16 @@
 <launch>
     <group ns="$(env HOSTNAME)">
         <arg name="remote_address" default="10.42.43.1"/>
-        <arg name="remote_port" default="9002"/>
+        <arg name="remote_port" default="10022"/>
         <arg name="bluefox" default="1"/>
         <arg name="webcam" default="0"/>
-        <arg name="lcm_id" default="$(optenv lcm_id 2)"/>
+        <arg name="lcm_id" default="$(optenv lcm_id 22)"/>
+	<arg name="camera_id" default="26802465"/>
+
+	<node  pkg="dynamic_reconfigure" type="dynparam" name="camera_init" args="set /$(env HOSTNAME)/camera/image_raw/compressed jpeg_quality 15"/>
 
         <include file="$(find bluefox2)/launch/single_node.launch" if="$(arg bluefox)">
-            <arg name="device" value="26804209"/>
+            <arg name="device" value="$(arg camera_id)"/>
             <arg name="camera_name" value="camera"/>
         </include>
 
@@ -30,9 +33,17 @@
             <arg name="compress" value="false"/>
         </include>
 
-        <node pkg="pioneer_outdoor" name="lcm_bridge" type="lcm_bridge.py">
+        <node pkg="odroid_manet" name="lcm_bridge" type="lcm_bridge.py">
             <param name="id" value="$(arg lcm_id)"/>
-            <remap from="fix" to="gps/fix"/>
+            <remap from="fix" to="mavros/global_position/global"/>
         </node>
+
+
+
+	<include file="$(find mavros)/launch/apm.launch">
+	    <arg name="fcu_url" value="/dev/ttyS2:57600"/>
+	</include>
+
+
     </group>
 </launch>
